@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:random_color/random_color.dart';
 
 class About extends StatefulWidget {
   const About({Key key}) : super(key: key);
@@ -9,8 +8,6 @@ class About extends StatefulWidget {
 }
 
 class _AboutState extends State<About> {
-  RandomColor _randomColor = RandomColor();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
