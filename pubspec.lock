@@ -92,6 +92,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.2"
+  esys_flutter_share:
+    dependency: "direct main"
+    description:
+      name: esys_flutter_share
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.2"
   fake_async:
     dependency: transitive
     description:
@@ -198,13 +205,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.3.0"
-  mime:
-    dependency: transitive
-    description:
-      name: mime
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.0"
   path:
     dependency: transitive
     description:
@@ -295,14 +295,7 @@ packages:
       name: screenshot
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.2.0"
-  share:
-    dependency: "direct main"
-    description:
-      name: share
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.1"
+    version: "0.3.0"
   sky_engine:
     dependency: transitive
     description: flutter

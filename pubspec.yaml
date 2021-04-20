@@ -32,9 +32,9 @@ dependencies:
   http: any
   random_color: 1.0.5
   image_gallery_saver: ^1.6.9
-  screenshot: 0.2.0
+  screenshot: ^0.3.0
   flutter_offline: "^2.0.0"
-  share: ^2.0.1
+  esys_flutter_share: ^1.0.2
 dev_dependencies:
   flutter_test:
     sdk: flutter

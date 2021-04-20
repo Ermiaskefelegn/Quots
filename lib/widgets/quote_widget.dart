@@ -1,14 +1,16 @@
+import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui';
 
+import 'package:esys_flutter_share/esys_flutter_share.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:quotes_final/pages/About.dart';
 import 'package:quotes_final/widgets/faded_pageroute.dart';
 import 'package:screenshot/screenshot.dart';
-import 'package:share/share.dart';
 
 // ignore: must_be_immutable
 class QuoteWidget extends StatefulWidget {
@@ -31,6 +33,7 @@ class QuoteWidget extends StatefulWidget {
 
 class _QuoteWidgetState extends State<QuoteWidget> {
   Uint8List _imageFile;
+  var imagefile;
   List<String> imageb64 = [];
   //Create an instance of ScreenshotController
   ScreenshotController screenshotController = ScreenshotController();
@@ -87,23 +90,24 @@ class _QuoteWidgetState extends State<QuoteWidget> {
                         children: [
                           InkWell(
                             onTap: () {
-                              _imageFile = null;
-                              screenshotController
-                                  .capture(pixelRatio: 2)
-                                  .then((image) async {
-                                //print("Capture Done");
-                                setState(() {
-                                  _imageFile = image as Uint8List;
-                                });
-                                ImageGallerySaver.saveImage(_imageFile);
-                                print("File Saved to Gallery");
-                                final snackBar = SnackBar(
-                                    content: Text("Image saved to Gallary"));
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(snackBar);
-                              }).catchError((onError) {
-                                print(onError);
-                              });
+                              imagefile = null;
+                              // screenshotController
+                              //     .capture(pixelRatio: 2)
+                              //     .then(( Uint8List image) {
+                              //   //print("Capture Done");
+                              //   setState(() {
+                              //     _imageFile = image ;
+                              //   });
+                              //   ImageGallerySaver.saveImage(_imageFile);
+                              //   print("File Saved to Gallery");
+                              //   final snackBar = SnackBar(
+                              //       content: Text("Image saved to Gallary"));
+                              //   ScaffoldMessenger.of(context)
+                              //       .showSnackBar(snackBar);
+                              // }).catchError((onError) {
+                              //   print(onError);
+                              // });
+                              _savetogallery();
                             },
                             child: Container(
                               margin: EdgeInsets.only(left: 10),
@@ -138,7 +142,7 @@ class _QuoteWidgetState extends State<QuoteWidget> {
                         children: [
                           InkWell(
                             onTap: () async {
-                              _takescreenshot();
+                              _takeScreenshotandShare();
                             },
                             child: Container(
                               margin: EdgeInsets.only(left: 10),
@@ -181,8 +185,35 @@ class _QuoteWidgetState extends State<QuoteWidget> {
     );
   }
 
-  Future<void> _takescreenshot() async {
-    final imagefile = await screenshotController.capture(pixelRatio: 2);
-    Share.shareFiles([imagefile.path]);
+  // Future<void> _takescreenshot() async {
+  //   Uint8List imagefile = await screenshotController.capture(pixelRatio: 2);
+  //   imageb64 = imagefile as List<String>;
+  //   await Share.shareFiles();
+  // }
+  _takeScreenshotandShare() async {
+    _imageFile = null;
+    screenshotController
+        .capture(delay: Duration(milliseconds: 10), pixelRatio: 2.0)
+        .then((image) async {
+      setState(() {
+        _imageFile = image;
+      });
+      final directory = (await getApplicationDocumentsDirectory()).path;
+      Uint8List pngBytes = _imageFile;
+      File imgFile = new File('$directory/screenshot.png');
+      imgFile.writeAsBytes(pngBytes);
+      print("File Saved to Gallery");
+      await Share.file('Anupam', 'screenshot.png', pngBytes, 'image/png');
+    }).catchError((onError) {
+      print(onError);
+    });
+  }
+
+  _savetogallery() async {
+    _imageFile = await screenshotController.capture(pixelRatio: 2);
+    ImageGallerySaver.saveImage(_imageFile);
+    print("File Saved to Gallery");
+    final snackBar = SnackBar(content: Text("Image saved to Gallary"));
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }

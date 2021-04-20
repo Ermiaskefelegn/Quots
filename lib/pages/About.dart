@@ -23,13 +23,7 @@ class _AboutState extends State<About> {
       body: Container(
         width: double.infinity,
         height: MediaQuery.of(context).size.height,
-        decoration: BoxDecoration(
-          color: _randomColor.randomColor(
-            colorHue: ColorHue.multiple(
-              colorHues: [ColorHue.red, ColorHue.blue],
-            ),
-          ),
-        ),
+        color: Colors.brown[400],
         child: Center(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
